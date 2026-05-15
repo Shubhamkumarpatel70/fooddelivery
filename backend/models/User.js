@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['pending', 'approved', 'rejected'],
     default: function() {
-      return this.role === 'delivery_boy' ? 'pending' : null;
+      return this.role === 'delivery_boy' ? 'pending' : 'approved';
     }
   },
   orders: [{
