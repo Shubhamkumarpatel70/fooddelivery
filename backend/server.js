@@ -34,6 +34,15 @@ app.use('/api/payment-methods', require('./routes/paymentMethods'));
 app.use('/api/addresses', require('./routes/addresses'));
 app.use('/api/restaurant-users', require('./routes/restaurantUsers'));
 
+// Health Check
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    dbStatus: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  });
+});
+
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/swiggy-clone', {
   useNewUrlParser: true,
