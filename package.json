@@ -1,0 +1,17 @@
+{
+  "name": "food-delivery-monorepo",
+  "version": "1.0.0",
+  "description": "Food Delivery App with Frontend and Backend",
+  "main": "backend/server.js",
+  "scripts": {
+    "install-backend": "cd backend && npm install",
+    "install-frontend": "cd frontend && npm install",
+    "install-all": "npm run install-backend && npm run install-frontend",
+    "build-frontend": "cd frontend && npm run build",
+    "start": "cd backend && node server.js",
+    "render-build": "npm run install-backend && npm run install-frontend && npm run build-frontend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
