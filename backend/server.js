@@ -55,10 +55,32 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/swiggy-cl
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
   const path = require('path');
-  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+  const fs = require('fs');
+  
+  // Try to find the dist folder in multiple possible locations
+  const possiblePaths = [
+    path.join(__dirname, '..', 'frontend', 'dist'),
+    path.join(process.cwd(), 'frontend', 'dist'),
+    path.join(process.cwd(), 'dist')
+  ];
+  
+  let staticPath = possiblePaths[0];
+  for (const p of possiblePaths) {
+    if (fs.existsSync(p)) {
+      staticPath = p;
+      console.log(`✅ Found static files at: ${staticPath}`);
+      break;
+    }
+  }
+
+  if (!fs.existsSync(staticPath)) {
+    console.error(`❌ Could not find static files directory. Checked: ${possiblePaths.join(', ')}`);
+  }
+
+  app.use(express.static(staticPath));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../frontend', 'dist', 'index.html'));
+    res.sendFile(path.resolve(staticPath, 'index.html'));
   });
 }
 
